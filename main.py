@@ -8,3 +8,7 @@ print(data)
 
 np_array = data.to_numpy()
 print(np_array)
+print(np_array.shape)
+np_last = pd.factorize(np_array[:, -1])
+
+print(np_last)
