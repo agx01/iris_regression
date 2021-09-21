@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+# -*- coding: utf-8 -*-
+
 import pandas as pd
 
 import numpy as np
@@ -46,3 +48,4 @@ print("Correlation between sepal width and petal width"+str(data["Sepal_width"].
 print("Correlation between petal length and petal width"+str(data["Petal_length"].corr(data["Petal_length"])))
 
 
+kmeans = KMeans(n_clusters=3, init = 'k-means++', max_iter = 300, n_init = 10, random_state = 0)
