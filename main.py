@@ -70,23 +70,78 @@ class LinearRegression:
     
     def predict(self):
         pass
+    
+    def cross_validation(self):
+        """
+        Cross validation function
+        Split the data into training and test sets to validate it across the
+        whole set.
+        It needs to split for each of the species available in iris data
+        1. iris-setosa
+        2. iris-virginica
+        3. iris-versicolor
+
+        Returns
+        -------
+        None.
+
+        """
+        iris_setosa = self.data[self.data["Species"] == "Iris-setosa"]
+        iris_virginica = self.data[self.data["Species"] == "Iris-virginica"]
+        iris_versicolor = self.data[self.data["Species"] == "Iris-versicolor"]
+        
+        #Get the unique values in column species
+        labels = self.data.Species.unique().to_list()
+        
+        #Get the number of unique values
+        num_labels = len(labels)
+        
+        #Dictionary to hold all the splits
+        label_split_data = {}
+        
+        #Split the data into the species and store the data in dictionary
+        for label in labels:
+            label_split_data[label] = self.data[self.data["Species"] == label]
+        
+        #Check if the data can be split in k number of test set and training set
+        if label_split_data[0].count % 3 != 0:
+            for label in labels:
+                pass
+        #Each species has 50 records, creating a 20% split in each species
+        #40 records for training and 10 records for testing in each species
+        
+        train_setosa1 = iris_setosa.iloc[40, :]
+        test_setosa1 = iris_setosa.iloc[-10, :]
+        
+        train_setosa2 = iris_setosa.iloc[-40, :]
+        test_setosa2 = iris_setosa.iloc[10, :]
+        
 
     def test_fit(self):
         """
         Testing fit algorithm on the entire data set
         create A and Y
         generate B using the formula
+
         Returns
         -------
-        None.
+        B : TYPE numpy array of size 4x1
+            the beta values from the full data set
 
         """
+        
         A = self.data.iloc[:, : 4].to_numpy()
         Y = self.data.iloc[:, -1].to_numpy()
         
         B = np.matmul(np.matmul(np.linalg.inv(np.matmul(A.transpose(), A)),A.transpose()),Y)
         print(B)
         
+        return B
+        
 
 if __name__ == "__main__":
     linreg = LinearRegression()
+    linreg.describe_data()
+    #linreg.visualize_data()
+    
+    linreg.cross_validation()
