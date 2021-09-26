@@ -293,7 +293,7 @@ class LinearRegression:
             else:
                 decision = False
         df = self.data[record_no].iloc[:, :4]
-        actual_value = self.data[record_no.iloc[:, -1:]]
+        actual_value = self.data[record_no].iloc[:, -1:]
         B = self.B_mean
         predicted_Y =  self.fit(df, B)
         print("The Predicted value is:")
@@ -308,3 +308,4 @@ if __name__ == "__main__":
     per_split = float(input("Please input the training and test split in decimal(20% = 0.2):"))
     bins = int(input("Please input the number of k-folds for cross validation:"))
     linreg.cross_validation(per_split, bins)
+    
