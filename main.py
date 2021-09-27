@@ -85,9 +85,10 @@ class LinearRegression:
         None.
 
         """
-        
+        data = self.data.copy()
+        data = data.drop(columns = ["Species_cat"])
         sns.set_style("whitegrid")
-        sns.pairplot(self.data, hue="Species", size=3)
+        sns.pairplot(data, hue="Species", size=3)
         plt.show()
     
     def fit(self, train_A, train_Y):
@@ -181,7 +182,10 @@ class LinearRegression:
         1. iris-setosa
         2. iris-virginica
         3. iris-versicolor
-
+        
+        Then create bins the required bins for using in the cross validation
+        
+        
         Returns
         -------
         None.
@@ -262,15 +266,6 @@ class LinearRegression:
             predicted_Y[i] = Y
             
             self.accuracy_scores[i] = metrics.accuracy_score(y_true=test_Y, y_pred=Y)
-            """
-            #Checking accuracy
-            for j in range(0, len(Y)):
-                predicted_value = Y[j]
-                actual_value = test_Y[j]
-                if predicted_value == actual_value:
-                    
-                    print(total_results)
-            """
             self.B_list = np.append(self.B_list, B)
             i += 1
         
@@ -348,15 +343,14 @@ class LinearRegression:
         B = self.B_mean
         
         predicted_Y = self.predict(A,B)
-        print(metrics.accuracy_score(y_true=actual_Y, y_pred=predicted_Y))
+        print("Accuracy of the algorithm on the existing dataset is:")
+        print(str(metrics.accuracy_score(y_true=actual_Y, y_pred=predicted_Y)*100)+"%")
         
 if __name__ == "__main__":
     linreg = LinearRegression()
-    linreg.describe_data()
-    #linreg.visualize_data()
     per_split = float(input("Please input the training and test split in decimal(20% = 0.2):"))
     bins = int(input("Please input the number of k-folds for cross validation:"))
+    linreg.describe_data()
+    linreg.visualize_data()
     linreg.cross_validation(per_split, bins)
-    print("Checking the accuracy for the Linear Regression:")
     linreg.testBmean_all()
-    #linreg.normalize_data()
