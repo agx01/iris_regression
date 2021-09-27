@@ -7,7 +7,7 @@ The use of iris data set for the prediction of species is a classic example for 
 The strategy for implementing a solution is to use k-folds cross validation to create k number of bins in the data and then train and test data on each of these bins which will give Beta for each the bins. To reduce the overfitting, we will find the mean of each Beta value generates for each feature as Beta Mean.
 
 ## Folders:
-data - Iris dataset is stored in the folder
+**data** - Iris dataset is stored in the folder
 
 Please check if the below mentioned dependencies are met 
 (Possibly can run on lower versions as I use very basic methods and functions)
