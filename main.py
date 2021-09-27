@@ -26,6 +26,7 @@ class LinearRegression:
 
         """
         self.data = pd.read_csv("data/iris.data", sep=",", header=None)
+        #print(self.normalize_data())
         self.data.columns = ["Sepal_length", 
                              "Sepal_width", 
                              "Petal_length", 
@@ -36,6 +37,15 @@ class LinearRegression:
         
         #To store the Beta values in a numpy array
         self.B_list = np.array([])
+    
+    def normalize_data(self):
+        normalized_data = self.data.copy()
+        for feature_name in self.data.columns:
+            if feature_name != "Species" or feature_name != "Species_cat":
+                max_value = self.data[feature_name].max()
+                min_value = self.data[feature_name].min()
+                normalized_data[feature_name] = (self.data[feature_name] - min_value)/(max_value - min_value)
+        return normalized_data
     
     def describe_data(self):
         """
@@ -52,6 +62,7 @@ class LinearRegression:
                                  columns = "count")
         print(iris_cross)
         print(self.data.describe())
+        print(self.data.info())
     
     def visualize_data(self):
         """
@@ -112,7 +123,10 @@ class LinearRegression:
 
         """
         A = test_A.to_numpy()
-        Y = np.matmul(A, B)
+        if A.shape[1] == 1:    
+            Y = np.matmul(A.transpose(), B)
+        else:
+            Y = np.matmul(A, B)
         
         #Processing Y values to make sense
         Y = Y.astype(np.float64)
@@ -284,22 +298,30 @@ class LinearRegression:
         decision = True
         record_no = 0
         while decision:
-            record_no = int(input("Select record number from dataset to use for test(0 to %d):", num_records))
-            print("Record number %d has data:", record_no)
-            print(self.data[record_no])
-            continue_loop = input("Input Yes or y to select anything else:")
+            record_no = int(input("Select record number from dataset to use for test(0 to %d):" %num_records))
+            print("Record number %d has data:" %record_no)
+            print(self.data.iloc[record_no])
+            continue_loop = input("Input Yes or y to select any other record:")
             if continue_loop == 'yes' or continue_loop == 'Yes' or continue_loop == 'y' or continue_loop == 'Y':
                 decision = True
             else:
                 decision = False
-        df = self.data[record_no].iloc[:, :4]
-        actual_value = self.data[record_no].iloc[:, -1:]
+        df = pd.DataFrame(self.data.iloc[record_no, :4])
+        actual_value = self.data.iloc[record_no, -1:].to_numpy()
         B = self.B_mean
-        predicted_Y =  self.fit(df, B)
+        predicted_Y =  self.predict(df, B)
         print("The Predicted value is:")
         print(predicted_Y)
         print("The Actual Value is:")
         print(actual_value)
+    
+    def testBmean_all(self):
+        A = self.data.iloc[:, :4]
+        actual_Y = self.data.iloc[:, -1].to_numpy()
+        B = self.B_mean
+        
+        predicted_Y = self.predict(A,B)
+        print(metrics.accuracy_score(y_true=actual_Y, y_pred=predicted_Y))
         
 if __name__ == "__main__":
     linreg = LinearRegression()
@@ -308,4 +330,5 @@ if __name__ == "__main__":
     per_split = float(input("Please input the training and test split in decimal(20% = 0.2):"))
     bins = int(input("Please input the number of k-folds for cross validation:"))
     linreg.cross_validation(per_split, bins)
-    
+    print("Checking the accuracy for the Linear Regression:")
+    linreg.testBmean_all()
