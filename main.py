@@ -26,12 +26,12 @@ class LinearRegression:
 
         """
         self.data = pd.read_csv("data/iris.data", sep=",", header=None)
-        #print(self.normalize_data())
         self.data.columns = ["Sepal_length", 
                              "Sepal_width", 
                              "Petal_length", 
                              "Petal_width", 
                              "Species"]
+        self.normalize_data()
         self.data["Species"] = self.data["Species"].astype('category')
         self.data["Species_cat"] = self.data["Species"].cat.codes
         
@@ -51,11 +51,11 @@ class LinearRegression:
         normalized_data = self.data.copy()
         for feature_name in self.data.columns:
             if feature_name.lower() not in ('species','species_cat'):
-                print(feature_name)
                 max_value = self.data[feature_name].max()
                 min_value = self.data[feature_name].min()
                 normalized_data[feature_name] = (self.data[feature_name] - min_value)/(max_value - min_value)
-        return normalized_data
+        
+        self.data = normalized_data
     
     def describe_data(self):
         """
