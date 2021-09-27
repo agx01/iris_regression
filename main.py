@@ -77,7 +77,7 @@ class LinearRegression:
     def visualize_data(self):
         """
         Creates graphs to visualize the preprocessed data
-        1. Pair plot for the data - provides the std distribution of each column
+        Pair plot for the data - provides the std distribution of each column
            and column data in comparison to other columns.
 
         Returns
