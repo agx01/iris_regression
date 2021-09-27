@@ -39,9 +39,19 @@ class LinearRegression:
         self.B_list = np.array([])
     
     def normalize_data(self):
+        """
+        Normalize the data to bring the data in 0 to 1 range
+
+        Returns
+        -------
+        normalized_data : Pandas dataframe
+            This dataframe contains the feature data with range 0 to 1
+
+        """
         normalized_data = self.data.copy()
         for feature_name in self.data.columns:
-            if feature_name != "Species" or feature_name != "Species_cat":
+            if feature_name.lower() not in ('species','species_cat'):
+                print(feature_name)
                 max_value = self.data[feature_name].max()
                 min_value = self.data[feature_name].min()
                 normalized_data[feature_name] = (self.data[feature_name] - min_value)/(max_value - min_value)
@@ -216,7 +226,7 @@ class LinearRegression:
                 new_train_df = binned_data[i]["train"]
                 new_test_df = binned_data[i]["test"]
                 
-                #concatenate dataframes
+                #Splitting the data in train and test for each bin
                 a = i*species_per_bin
                 b = (i*species_per_bin+species_per_bin)
                 train_df, test_df = self.train_test_split(label_df.iloc[a:b, :], 
@@ -294,6 +304,14 @@ class LinearRegression:
         return B
     
     def test_Bmean(self):
+        """
+        Test B_mean values against random records in the dataset
+
+        Returns
+        -------
+        None.
+
+        """
         num_records = self.data.shape[0]
         decision = True
         record_no = 0
@@ -316,6 +334,15 @@ class LinearRegression:
         print(actual_value)
     
     def testBmean_all(self):
+        """
+        Using the mean Beta values, predict the Y or label values for the
+        entire dataset to get accuracy
+
+        Returns
+        -------
+        None.
+
+        """
         A = self.data.iloc[:, :4]
         actual_Y = self.data.iloc[:, -1].to_numpy()
         B = self.B_mean
@@ -332,3 +359,4 @@ if __name__ == "__main__":
     linreg.cross_validation(per_split, bins)
     print("Checking the accuracy for the Linear Regression:")
     linreg.testBmean_all()
+    #linreg.normalize_data()
