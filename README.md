@@ -27,3 +27,20 @@ Then, input the below mentioned command:
 ```
 python main.py
 ```
+
+## Data Description
+The Iris Data set contains 5 columns – 
+1. Sepal Length
+2. Sepal Width
+3. Petal Length
+4. Petal Width
+5. Species
+
+## Data Distribution based on labels
+| Species | Number of Records |
+| :---: | :---: |
+| Iris Setosa | 50 |
+| :---: | :---: |
+| Iris Virginica | 50 |
+| :---: | :---: |
+| Iris Versicolor | 50 |
