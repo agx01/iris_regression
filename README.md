@@ -42,3 +42,8 @@ The Iris Data set contains 5 columns –
 | Iris Setosa | 50 |
 | Iris Virginica | 50 |
 | Iris Versicolor | 50 |
+
+## Results
+
+Based on the various train test values, the mean Beta values change.
+**Achieved 98% accuracy**
