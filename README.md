@@ -40,7 +40,5 @@ The Iris Data set contains 5 columns –
 | Species | Number of Records |
 | :---: | :---: |
 | Iris Setosa | 50 |
-| :---: | :---: |
 | Iris Virginica | 50 |
-| :---: | :---: |
 | Iris Versicolor | 50 |
